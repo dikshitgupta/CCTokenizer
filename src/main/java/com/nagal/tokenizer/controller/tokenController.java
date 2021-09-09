@@ -15,20 +15,24 @@ public class tokenController {
 	@Autowired
 	private CardService cardService;
 
-	@GetMapping("/hello")
-	public String hello(){
-		return "hello rest controller";
-	}
-
 	@PostMapping("/saveCard")
 	public ResponseEntity<?> saveCard(@RequestBody CreditCard card){
-		cardService.saveCard(card);
-		return ResponseEntity.ok(true);
+		if(cardService.saveCard(card)){
+			return ResponseEntity.ok("Card saved in DB");
+		}
+		else {
+			return ResponseEntity.internalServerError().build();
+		}
 	}
 
 	@GetMapping("/validate")
 	public ResponseEntity<?> validateCard(@RequestBody CreditCard card){
-		return ResponseEntity.ok(cardService.validateCard(card));
+		if(cardService.validateCard(card)){
+			return ResponseEntity.ok("Card Validated");
+		}
+		else{
+			return ResponseEntity.ok("Card Not Found");
+		}
 	}
 
 }
