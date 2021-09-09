@@ -22,6 +22,10 @@ public class CardService {
 		Integer hashedCard=creditCard.hashCode();
 		Token token=new Token();
 		token.setHashedValue(hashedCard);
+		if(validateCard(creditCard)){
+			logger.info("Card Details are already Saved");
+			return true;
+		}
 		try {
 			cardRepository.save(token);
 		}
